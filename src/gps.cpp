@@ -62,3 +62,10 @@ unsigned long get_GPS_epoch_time() {
 
   return (unsigned long)mktime(&t);
 }
+
+bool has_gps_fix() {
+  // TinyGPSPlus can report location.isValid() == true while still holding
+  // the default 0.0, 0.0 it starts with, before a real fix ever arrives.
+  return gps.location.isValid() &&
+         (gps.location.lat() != 0.0 || gps.location.lng() != 0.0);
+}
